@@ -7,8 +7,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 public class GameService {
@@ -36,7 +36,7 @@ public class GameService {
         try{
             game = GameRepo.getInstance().findGameById(idAsInt);
 
-        }catch(FileNotFoundException e){
+        }catch(NoSuchElementException e){
             return new ResponseEntity<>(
                     null,
                     HttpStatus.NOT_FOUND

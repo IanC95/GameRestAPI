@@ -1,5 +1,5 @@
 # GameRestAPI
-Rest API project for technical assesement
+Rest API project for technical assessment
 
 ## Requirements
 * Java 1.8

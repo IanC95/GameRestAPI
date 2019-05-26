@@ -31,7 +31,10 @@ public class ReportService {
         try {
             games = GameRepo.getInstance().findAllGames();
         }catch(IOException e){
-            return null;
+            return new ResponseEntity<>(
+                    null,
+                    HttpStatus.INTERNAL_SERVER_ERROR
+            );
         }
 
         report.setUser_with_most_comments(this.calculateUserWithMostComments(games));

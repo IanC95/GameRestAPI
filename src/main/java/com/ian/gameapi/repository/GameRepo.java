@@ -5,8 +5,9 @@ import com.ian.gameapi.pojos.Game;
 import org.springframework.util.ResourceUtils;
 
 import java.io.File;
-import java.io.FileNotFoundException;
+
 import java.io.IOException;
+import java.util.NoSuchElementException;
 
 public class GameRepo {
     private static GameRepo ourInstance = new GameRepo();
@@ -26,7 +27,7 @@ public class GameRepo {
         Game[] games = findAllGames();
 
         if(id > games.length){
-            throw new FileNotFoundException();
+            throw new NoSuchElementException();
         }else{
             return games[idToIndex];
         }
