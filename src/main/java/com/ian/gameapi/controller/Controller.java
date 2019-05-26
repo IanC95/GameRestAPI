@@ -1,5 +1,9 @@
-package com.ian.gameapi;
+package com.ian.gameapi.controller;
 
+import com.ian.gameapi.pojos.Game;
+import com.ian.gameapi.pojos.Report;
+import com.ian.gameapi.repository.GameRepo;
+import com.ian.gameapi.service.ReportService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -30,7 +34,7 @@ public class Controller {
         Game game;
 
         try{
-            game = FileHandler.getInstance().findGameById(idAsInt);
+            game = GameRepo.getInstance().findGameById(idAsInt);
 
         }catch(FileNotFoundException e){
             return new ResponseEntity<>(

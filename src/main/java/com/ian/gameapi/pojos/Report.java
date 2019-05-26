@@ -1,4 +1,4 @@
-package com.ian.gameapi;
+package com.ian.gameapi.pojos;
 
 public class Report {
     private String user_with_most_comments;

@@ -1,22 +1,23 @@
-package com.ian.gameapi;
+package com.ian.gameapi.repository;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.ian.gameapi.pojos.Game;
 import org.springframework.util.ResourceUtils;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
-public class FileHandler {
-    private static FileHandler ourInstance = new FileHandler();
+public class GameRepo {
+    private static GameRepo ourInstance = new GameRepo();
 
-    public static FileHandler getInstance() {
+    public static GameRepo getInstance() {
         return ourInstance;
     }
 
     private final ObjectMapper objectMapper;
 
-    private FileHandler() {
+    private GameRepo() {
         this.objectMapper = new ObjectMapper();
     }
 

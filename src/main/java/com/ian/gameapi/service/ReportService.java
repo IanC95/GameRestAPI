@@ -1,4 +1,10 @@
-package com.ian.gameapi;
+package com.ian.gameapi.service;
+
+import com.ian.gameapi.pojos.Comment;
+import com.ian.gameapi.pojos.Game;
+import com.ian.gameapi.pojos.GameLikes;
+import com.ian.gameapi.pojos.Report;
+import com.ian.gameapi.repository.GameRepo;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -21,7 +27,7 @@ public class ReportService {
         Game[] games;
 
         try {
-            games = FileHandler.getInstance().findAllGames();
+            games = GameRepo.getInstance().findAllGames();
         }catch(IOException e){
             return null;
         }

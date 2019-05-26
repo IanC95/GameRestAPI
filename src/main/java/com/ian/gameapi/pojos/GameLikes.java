@@ -1,4 +1,4 @@
-package com.ian.gameapi;
+package com.ian.gameapi.pojos;
 
 public class GameLikes {
     private String title;

@@ -1,4 +1,4 @@
-package com.ian.gameapi;
+package com.ian.gameapi.pojos;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
