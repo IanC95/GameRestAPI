@@ -1,26 +1,26 @@
 package com.ian.gameapi.service;
 
-import com.ian.gameapi.pojos.Game;
+import com.ian.gameapi.model.Game;
 import com.ian.gameapi.repository.GameRepo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
+@Service
 public class GameService {
-    private static GameService ourInstance = new GameService();
-
-    public static GameService getInstance() {
-        return ourInstance;
-    }
-
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    private GameService() {
+    @Autowired
+    private GameRepo gameRepo;
+
+    public GameService() {
     }
 
     public ResponseEntity<Object> getGame(String id){
@@ -34,7 +34,7 @@ public class GameService {
         int idAsInt = Integer.parseInt(id);
         Game game;
         try{
-            game = GameRepo.getInstance().findGameById(idAsInt);
+            game = gameRepo.findGameById(idAsInt);
 
         }catch(NoSuchElementException e){
             return new ResponseEntity<>(

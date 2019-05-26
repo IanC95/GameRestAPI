@@ -1,6 +1,4 @@
-package com.ian.gameapi.pojos;
-
-import com.ian.gameapi.pojos.Comment;
+package com.ian.gameapi.model;
 
 import java.util.List;
 

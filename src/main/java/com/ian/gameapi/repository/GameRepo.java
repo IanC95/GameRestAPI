@@ -1,7 +1,8 @@
 package com.ian.gameapi.repository;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.ian.gameapi.pojos.Game;
+import com.ian.gameapi.model.Game;
+import org.springframework.stereotype.Repository;
 import org.springframework.util.ResourceUtils;
 
 import java.io.File;
@@ -9,16 +10,12 @@ import java.io.File;
 import java.io.IOException;
 import java.util.NoSuchElementException;
 
+@Repository
 public class GameRepo {
-    private static GameRepo ourInstance = new GameRepo();
-
-    public static GameRepo getInstance() {
-        return ourInstance;
-    }
 
     private final ObjectMapper objectMapper;
 
-    private GameRepo() {
+    public GameRepo() {
         this.objectMapper = new ObjectMapper();
     }
 

@@ -1,12 +1,14 @@
 package com.ian.gameapi.service;
 
-import com.ian.gameapi.pojos.Comment;
-import com.ian.gameapi.pojos.Game;
-import com.ian.gameapi.pojos.GameLikes;
-import com.ian.gameapi.pojos.Report;
+import com.ian.gameapi.model.Comment;
+import com.ian.gameapi.model.Game;
+import com.ian.gameapi.model.GameLikes;
+import com.ian.gameapi.model.Report;
 import com.ian.gameapi.repository.GameRepo;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -14,14 +16,13 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
+@Service
 public class ReportService {
-    private static ReportService ourInstance = new ReportService();
 
-    public static ReportService getInstance() {
-        return ourInstance;
-    }
+    @Autowired
+    private GameRepo gameRepo;
 
-    private ReportService() {
+    public ReportService() {
     }
 
     public ResponseEntity<Object> getReport(){
@@ -29,7 +30,7 @@ public class ReportService {
         Game[] games;
 
         try {
-            games = GameRepo.getInstance().findAllGames();
+            games = gameRepo.findAllGames();
         }catch(IOException e){
             return new ResponseEntity<>(
                     null,
