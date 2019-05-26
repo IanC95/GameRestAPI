@@ -5,6 +5,8 @@ import com.ian.gameapi.pojos.Game;
 import com.ian.gameapi.pojos.GameLikes;
 import com.ian.gameapi.pojos.Report;
 import com.ian.gameapi.repository.GameRepo;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -22,7 +24,7 @@ public class ReportService {
     private ReportService() {
     }
 
-    public Report getReport(){
+    public ResponseEntity<Object> getReport(){
         Report report = new Report();
         Game[] games;
 
@@ -36,7 +38,10 @@ public class ReportService {
         report.setHighest_rated_game(this.gameWithHighestSumLikes(games));
         report.setAverage_likes_per_game(this.averageLikesPerGame(games));
 
-        return report;
+        return new ResponseEntity<>(
+                report,
+                HttpStatus.OK
+        );
     }
 
     private String calculateUserWithMostComments(Game[] games){
