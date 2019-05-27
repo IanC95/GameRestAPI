@@ -1,4 +1,4 @@
-package com.ian.gameapi.model;
+package com.ian.gamerestapi.model;
 
 import java.util.List;
 

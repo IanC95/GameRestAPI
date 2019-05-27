@@ -1,10 +1,10 @@
-package com.ian.gameapi.service;
+package com.ian.gamerestapi.service;
 
-import com.ian.gameapi.model.Comment;
-import com.ian.gameapi.model.Game;
-import com.ian.gameapi.model.GameLikes;
-import com.ian.gameapi.model.Report;
-import com.ian.gameapi.repository.GameRepo;
+import com.ian.gamerestapi.model.Comment;
+import com.ian.gamerestapi.model.Game;
+import com.ian.gamerestapi.model.GameLikes;
+import com.ian.gamerestapi.model.Report;
+import com.ian.gamerestapi.repository.GameRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

@@ -1,4 +1,4 @@
-package com.ian.gameapi;
+package com.ian.gamerestapi;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

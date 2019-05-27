@@ -1,4 +1,4 @@
-package com.ian.gameapi;
+package com.ian.gamerestapi;
 
 import com.intuit.karate.junit4.Karate;
 import org.junit.runner.RunWith;

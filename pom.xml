@@ -9,10 +9,10 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.ian</groupId>
-    <artifactId>gameapi</artifactId>
+    <artifactId>gamerestapi</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>gameapi</name>
-    <description>Demo project for Spring Boot</description>
+    <name>gamerestapi</name>
+    <description>Rest API created for technical assessment</description>
 
     <properties>
         <java.version>1.8</java.version>

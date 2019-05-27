@@ -1,7 +1,7 @@
-package com.ian.gameapi.repository;
+package com.ian.gamerestapi.repository;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.ian.gameapi.model.Game;
+import com.ian.gamerestapi.model.Game;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.ResourceUtils;
 

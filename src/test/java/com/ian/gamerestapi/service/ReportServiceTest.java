@@ -1,4 +1,4 @@
-package com.ian.gameapi.service;
+package com.ian.gamerestapi.service;
 
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;

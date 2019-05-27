@@ -1,7 +1,7 @@
-package com.ian.gameapi.controller;
+package com.ian.gamerestapi.controller;
 
-import com.ian.gameapi.service.GameService;
-import com.ian.gameapi.service.ReportService;
+import com.ian.gamerestapi.service.GameService;
+import com.ian.gamerestapi.service.ReportService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;

@@ -1,4 +1,4 @@
-package com.ian.gameapi.model;
+package com.ian.gamerestapi.model;
 
 public class Report {
     private String user_with_most_comments;

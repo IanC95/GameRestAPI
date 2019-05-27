@@ -1,7 +1,7 @@
-package com.ian.gameapi.service;
+package com.ian.gamerestapi.service;
 
-import com.ian.gameapi.model.Game;
-import com.ian.gameapi.repository.GameRepo;
+import com.ian.gamerestapi.model.Game;
+import com.ian.gamerestapi.repository.GameRepo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

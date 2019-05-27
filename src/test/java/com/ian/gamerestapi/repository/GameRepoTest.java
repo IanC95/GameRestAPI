@@ -1,4 +1,4 @@
-package com.ian.gameapi.repository;
+package com.ian.gamerestapi.repository;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Test;
