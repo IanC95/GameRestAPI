@@ -1,5 +1,7 @@
 package com.ian.gamerestapi.model;
 
+import java.util.Arrays;
+
 public class Report {
     private String user_with_most_comments;
     private String highest_rated_game;
@@ -30,5 +32,28 @@ public class Report {
 
     public void setAverage_likes_per_game(GameLikes[] average_likes_per_game) {
         this.average_likes_per_game = average_likes_per_game;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Report report = (Report) o;
+
+        if (getUser_with_most_comments() != null ? !getUser_with_most_comments().equals(report.getUser_with_most_comments()) : report.getUser_with_most_comments() != null)
+            return false;
+        if (getHighest_rated_game() != null ? !getHighest_rated_game().equals(report.getHighest_rated_game()) : report.getHighest_rated_game() != null)
+            return false;
+        // Probably incorrect - comparing Object[] arrays with Arrays.equals
+        return Arrays.equals(getAverage_likes_per_game(), report.getAverage_likes_per_game());
+    }
+
+    @Override
+    public int hashCode() {
+        int result = getUser_with_most_comments() != null ? getUser_with_most_comments().hashCode() : 0;
+        result = 31 * result + (getHighest_rated_game() != null ? getHighest_rated_game().hashCode() : 0);
+        result = 31 * result + Arrays.hashCode(getAverage_likes_per_game());
+        return result;
     }
 }

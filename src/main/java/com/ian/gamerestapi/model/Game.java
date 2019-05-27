@@ -69,4 +69,35 @@ public class Game {
     public void setComments(List<Comment> comments) {
         this.comments = comments;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Game game = (Game) o;
+
+        if (getTitle() != null ? !getTitle().equals(game.getTitle()) : game.getTitle() != null) return false;
+        if (getDescription() != null ? !getDescription().equals(game.getDescription()) : game.getDescription() != null)
+            return false;
+        if (getBy() != null ? !getBy().equals(game.getBy()) : game.getBy() != null) return false;
+        if (getPlatform() != null ? !getPlatform().equals(game.getPlatform()) : game.getPlatform() != null)
+            return false;
+        if (getAge_rating() != null ? !getAge_rating().equals(game.getAge_rating()) : game.getAge_rating() != null)
+            return false;
+        if (getLikes() != null ? !getLikes().equals(game.getLikes()) : game.getLikes() != null) return false;
+        return getComments() != null ? getComments().equals(game.getComments()) : game.getComments() == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = getTitle() != null ? getTitle().hashCode() : 0;
+        result = 31 * result + (getDescription() != null ? getDescription().hashCode() : 0);
+        result = 31 * result + (getBy() != null ? getBy().hashCode() : 0);
+        result = 31 * result + (getPlatform() != null ? getPlatform().hashCode() : 0);
+        result = 31 * result + (getAge_rating() != null ? getAge_rating().hashCode() : 0);
+        result = 31 * result + (getLikes() != null ? getLikes().hashCode() : 0);
+        result = 31 * result + (getComments() != null ? getComments().hashCode() : 0);
+        return result;
+    }
 }

@@ -1,47 +1,82 @@
 package com.ian.gamerestapi.service;
 
+import com.ian.gamerestapi.model.Comment;
+import com.ian.gamerestapi.model.Game;
+import com.ian.gamerestapi.model.GameLikes;
+import com.ian.gamerestapi.model.Report;
+import com.ian.gamerestapi.repository.GameRepo;
+import org.junit.Before;
 import org.junit.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.junit.MockitoJUnitRunner;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 import static org.junit.Assert.*;
 
+@RunWith(MockitoJUnitRunner.class)
 public class ReportServiceTest {
 
-    @Autowired
+    @Mock
+    private GameRepo gameRepo;
+
     private ReportService reportService;
-    @Test
-    public void getReportTestIOException() {
-        ResponseEntity<Object> response = reportService.getReport();
 
-        //TODO: Mock GameRepo to throw IOException
+    private Game testGame;
+    private Game[] games;
+    @Before
+    public void init(){
+        reportService = new ReportService(gameRepo);
+        testGame = new Game();
+        games = new Game[1];
+    }
 
-        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
+    @Test(expected = IOException.class)
+    public void getReportTestIOException() throws IOException{
+        Mockito.when(gameRepo.findAllGames()).thenThrow(new IOException());
+
+        reportService.getReport();
     }
 
     @Test
-    public void getReportTestNoComments() {
-        ResponseEntity<Object> response = reportService.getReport();
+    public void getReportTestNoComments() throws IOException {
+        games[0] = testGame;
 
-        //TODO: Mock getComments to return an empty List
+        Mockito.when(gameRepo.findAllGames()).thenReturn(games);
+        Report report = reportService.getReport();
 
-        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals("", report.getUser_with_most_comments());
     }
 
     @Test
-    public void getReportTestNoGames() {
-        ResponseEntity<Object> response = reportService.getReport();
+    public void getReportTest() throws IOException{
+        testGame.setTitle("Title");
+        testGame.setAge_rating("12");
+        testGame.setBy("Company");
+        testGame.setDescription("Desc");
+        testGame.setLikes(5);
 
-        //TODO: Mock GameRepo to return an empty array
+        testGame.setComments(new ArrayList<>(Arrays.asList(
+                new Comment("User", "Message", 10000L, 5),
+                new Comment("User", "Message2", 10000L, 5),
+                new Comment("User2", "Message3", 20000L, 4)
+        )));
 
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-    }
+        games[0] = testGame;
 
-    @Test
-    public void getReportTest() {
-        ResponseEntity<Object> response = reportService.getReport();
+        Report expectedReport = new Report();
 
-        assertEquals(HttpStatus.OK, response.getStatusCode());
+        expectedReport.setHighest_rated_game("Title");
+        expectedReport.setUser_with_most_comments("User");
+        expectedReport.setAverage_likes_per_game(new GameLikes[]{new GameLikes("Title", 5)});
+
+        Mockito.when(gameRepo.findAllGames()).thenReturn(games);
+        Report report = reportService.getReport();
+
+        assertEquals(expectedReport, report);
     }
 }

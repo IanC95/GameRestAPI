@@ -5,9 +5,6 @@ import com.ian.gamerestapi.model.Game;
 import com.ian.gamerestapi.model.GameLikes;
 import com.ian.gamerestapi.model.Report;
 import com.ian.gamerestapi.repository.GameRepo;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -19,48 +16,48 @@ import java.util.Map;
 @Service
 public class ReportService {
 
-    @Autowired
-    private GameRepo gameRepo;
+    private final GameRepo gameRepo;
 
-    public ReportService() {
+    public ReportService(GameRepo gameRepo) {
+        this.gameRepo = gameRepo;
     }
 
-    public ResponseEntity<Object> getReport(){
+    public Report getReport() throws IOException{
         Report report = new Report();
         Game[] games;
 
-        try {
-            games = gameRepo.findAllGames();
-        }catch(IOException e){
-            return new ResponseEntity<>(
-                    null,
-                    HttpStatus.INTERNAL_SERVER_ERROR
-            );
-        }
+        games = gameRepo.findAllGames();
 
         report.setUser_with_most_comments(this.calculateUserWithMostComments(games));
         report.setHighest_rated_game(this.gameWithHighestSumLikes(games));
         report.setAverage_likes_per_game(this.averageLikesPerGame(games));
 
-        return new ResponseEntity<>(
-                report,
-                HttpStatus.OK
-        );
+        return report;
     }
 
     private String calculateUserWithMostComments(Game[] games){
         HashMap<String, Integer> usersComments = new HashMap<>();
 
+        if(games == null || games.length == 0){
+            return "";
+        }
+
         for(Game game: games) {
-            for(Comment comment : game.getComments()){
-                String user = comment.getUser();
-                if (usersComments.containsKey(user)){
-                    Integer newAmountOfComments = usersComments.get(user) + 1;
-                    usersComments.put(user, newAmountOfComments);
-                }else{
-                    usersComments.put(user, 1);
+            if(game.getComments() != null && !game.getComments().isEmpty()) {
+                for (Comment comment : game.getComments()) {
+                    String user = comment.getUser();
+                    if (usersComments.containsKey(user)) {
+                        Integer newAmountOfComments = usersComments.get(user) + 1;
+                        usersComments.put(user, newAmountOfComments);
+                    } else {
+                        usersComments.put(user, 1);
+                    }
                 }
             }
+        }
+
+        if(usersComments.isEmpty()){
+            return "";
         }
 
         Map.Entry<String, Integer> maxEntry = Collections.max(usersComments.entrySet(),
@@ -70,16 +67,22 @@ public class ReportService {
     }
 
     private String gameWithHighestSumLikes(Game[] games){
+        if(games == null || games.length == 0){
+            return "";
+        }
+
         String currentLeader = "";
         Integer currentMax = 0;
         for(Game game : games){
-            int gamesLikes = 0;
-            for(Comment comment: game.getComments()){
-                gamesLikes += comment.getLike();
-            }
-            if(gamesLikes > currentMax){
-                currentMax = gamesLikes;
-                currentLeader = game.getTitle();
+            if(game.getComments() != null && !game.getComments().isEmpty()) {
+                int gamesLikes = 0;
+                for (Comment comment : game.getComments()) {
+                    gamesLikes += comment.getLike();
+                }
+                if (gamesLikes > currentMax) {
+                    currentMax = gamesLikes;
+                    currentLeader = game.getTitle();
+                }
             }
         }
 
@@ -87,6 +90,10 @@ public class ReportService {
     }
 
     private GameLikes[] averageLikesPerGame(Game[] games){
+        if(games == null || games.length == 0){
+            return new GameLikes[0];
+        }
+
         ArrayList<GameLikes> gameLikesArrayList = new ArrayList<>();
 
         for(Game game : games){
@@ -97,18 +104,21 @@ public class ReportService {
             int sumLikes = 0;
             int numComments = 0;
 
-            for(Comment comment : game.getComments()){
-                sumLikes += comment.getLike();
-                numComments++;
-            }
+            if(game.getComments() != null && !game.getComments().isEmpty()) {
+                for (Comment comment : game.getComments()) {
+                    sumLikes += comment.getLike();
+                    numComments++;
+                }
 
-            int avgLikes = 0;
 
-            if(numComments == 0){
-                gameLikes.setAverage_likes(avgLikes);
-            }else{
-                avgLikes = (int)Math.ceil(sumLikes / (numComments * 1.0f));
-                gameLikes.setAverage_likes(avgLikes);
+                int avgLikes = 0;
+
+                if (numComments == 0) {
+                    gameLikes.setAverage_likes(avgLikes);
+                } else {
+                    avgLikes = (int) Math.ceil(sumLikes / (numComments * 1.0f));
+                    gameLikes.setAverage_likes(avgLikes);
+                }
             }
         }
 

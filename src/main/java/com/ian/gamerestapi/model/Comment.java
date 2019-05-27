@@ -12,6 +12,13 @@ public class Comment {
     public Comment() {
     }
 
+    public Comment(String user, String message, long dateCreated, Integer like) {
+        this.user = user;
+        this.message = message;
+        this.dateCreated = dateCreated;
+        this.like = like;
+    }
+
     public String getUser() {
         return user;
     }
