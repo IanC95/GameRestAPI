@@ -4,7 +4,7 @@ Feature: Testing ability to retrieve game by id
     Given url 'http://localhost:8080/games/1'
     When method GET
     Then status 200
-    And match $ == read('game_id_1.json')
+    And match $ == read('../templates/game_id_1.json')
 
   Scenario: Requested id is not integer
     Given url 'http://localhost:8080/games/NOTANDID'

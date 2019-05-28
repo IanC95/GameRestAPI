@@ -10,7 +10,7 @@
     </parent>
     <groupId>com.ian</groupId>
     <artifactId>gamerestapi</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>1.0.0</version>
     <name>gamerestapi</name>
     <description>Rest API created for technical assessment</description>
 
@@ -42,11 +42,6 @@
             <artifactId>karate-junit4</artifactId>
             <version>0.9.2</version>
             <scope>test</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-databind</artifactId>
         </dependency>
     </dependencies>
 

@@ -1,5 +1,6 @@
-package com.ian.gamerestapi;
+package com.ian.gamerestapi.karate;
 
+import com.ian.gamerestapi.GameApiApplication;
 import com.intuit.karate.junit4.Karate;
 import org.junit.BeforeClass;
 import org.junit.runner.RunWith;

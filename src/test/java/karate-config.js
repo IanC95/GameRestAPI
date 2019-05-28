@@ -7,8 +7,8 @@ function fn() {
   var config = { // base config JSON
     env: env,
   };
-  // don't waste time waiting for a connection or if servers don't respond within 5 seconds
-  karate.configure('connectTimeout', 500);
-  karate.configure('readTimeout', 500);
+  // don't waste time waiting for a connection or if servers don't respond within 1 second
+  karate.configure('connectTimeout', 1000);
+  karate.configure('readTimeout', 1000);
   return config;
 }
