@@ -17,6 +17,7 @@ public class GameRepo {
 
     private ObjectMapper objectMapper;
 
+
     public GameRepo() throws IOException{
         this.objectMapper = new ObjectMapper();
         jsonFile = ResourceUtils.getFile(JSON_FILE_PATH);
@@ -30,6 +31,12 @@ public class GameRepo {
         return jsonFile;
     }
 
+    /**
+     * Returns single game from repo, identified by id
+     * @param id if of wanted game
+     * @return game with matching id to input
+     * @throws IOException if id not found, or error reading from 'db'
+     */
     public Game findGameById(int id) throws IOException {
         int idToIndex = id - 1;
         Game[] games = findAllGames();
@@ -41,6 +48,11 @@ public class GameRepo {
         }
     }
 
+    /**
+     * Returns all games from the repo
+     * @return array of Games from repo
+     * @throws IOException if error reading from 'db'
+     */
     public Game[] findAllGames() throws IOException{
         return objectMapper.readValue(jsonFile, Game[].class);
     }

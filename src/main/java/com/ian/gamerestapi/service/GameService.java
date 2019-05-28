@@ -16,6 +16,13 @@ public class GameService {
         this.gameRepo = gameRepo;
     }
 
+    /**
+     * Returns a game from the repo
+     * @param id id of desired game
+     * @return Game, if found
+     * @throws IOException if id not found or repo errors
+     * @throws InvalidIdException if if cannot be converted in to a valid in
+     */
     public Game getGame(String id) throws IOException, InvalidIdException {
         if(!isValidId(id)){
             throw new InvalidIdException();
@@ -26,6 +33,11 @@ public class GameService {
         return gameRepo.findGameById(idAsInt);
     }
 
+    /**
+     * Checks if input string is a valid id (any int > 0)
+     * @param s String to be checked
+     * @return true  if id is valid, false otherwise
+     */
     private boolean isValidId(String s){
         if(!isInteger(s)){
             return false;
@@ -36,6 +48,11 @@ public class GameService {
         return integer > 0;
     }
 
+    /**
+     * Checks if provided string is a valid int
+     * @param s String to be checked
+     * @return true if String is integer
+     */
     private boolean isInteger(String s){
         if(s == null || s.isEmpty()){
             return false;
