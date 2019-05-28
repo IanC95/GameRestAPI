@@ -1,6 +1,7 @@
 package com.ian.gamerestapi.service;
 
 import com.ian.gamerestapi.exception.IdNotFoundException;
+import com.ian.gamerestapi.exception.InvalidIdException;
 import com.ian.gamerestapi.model.Game;
 import com.ian.gamerestapi.repository.GameRepo;
 import org.junit.Before;
@@ -18,6 +19,7 @@ import static org.junit.Assert.*;
 public class GameServiceTest {
 
     private static final String VALID_ID = "1";
+    private static final String ID_ZERO = "0";
     private static final String INVALID_ID_STRING = "NOTANID";
     private static final String INVALID_ID_NEGATIVE_INT = "-2";
 
@@ -35,22 +37,23 @@ public class GameServiceTest {
         expectedGame.setTitle("Test game title");
     }
 
-    @Test
-    public void getGameTestInvalidIdString() throws IOException {
-        Game game = gameService.getGame(INVALID_ID_STRING);
+    @Test(expected = InvalidIdException.class)
+    public void getGameTestInvalidIdString() throws IOException, InvalidIdException {
+        gameService.getGame(INVALID_ID_STRING);
+    }
 
-        assertNull(game);
+    @Test(expected = InvalidIdException.class)
+    public void getGameTestInvalidIdNegativeInt() throws IOException, InvalidIdException{
+        gameService.getGame(INVALID_ID_NEGATIVE_INT);
+    }
+
+    @Test(expected = InvalidIdException.class)
+    public void getGameTestInvalidIdZero() throws IOException, InvalidIdException{
+        gameService.getGame(ID_ZERO);
     }
 
     @Test
-    public void getGameTestInvalidIdNegativeInt() throws IOException{
-        Game game = gameService.getGame(INVALID_ID_NEGATIVE_INT);
-
-        assertNull(game);
-    }
-
-    @Test
-    public void getGameTestValidId() throws IOException{
+    public void getGameTestValidId() throws IOException, InvalidIdException{
         Mockito.when(gameRepo.findGameById(Mockito.anyInt())).thenReturn(expectedGame);
 
         Game game = gameService.getGame(VALID_ID);
@@ -59,14 +62,14 @@ public class GameServiceTest {
     }
 
     @Test(expected = IdNotFoundException.class)
-    public void getGameTestValidIdGameNotFound() throws IOException{
+    public void getGameTestValidIdGameNotFound() throws IOException, InvalidIdException{
         Mockito.when(gameRepo.findGameById(Integer.parseInt(VALID_ID))).thenThrow(new IdNotFoundException());
 
         gameService.getGame(VALID_ID);
     }
 
     @Test(expected = IOException.class)
-    public void getGameTestValidIdIoException() throws IOException{
+    public void getGameTestValidIdIoException() throws IOException, InvalidIdException{
         Mockito.when(gameRepo.findGameById(Integer.parseInt(VALID_ID))).thenThrow(new IOException());
 
         gameService.getGame(VALID_ID);

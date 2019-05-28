@@ -1,5 +1,6 @@
 package com.ian.gamerestapi.service;
 
+import com.ian.gamerestapi.exception.InvalidIdException;
 import com.ian.gamerestapi.model.Game;
 import com.ian.gamerestapi.repository.GameRepo;
 import org.springframework.stereotype.Service;
@@ -15,9 +16,9 @@ public class GameService {
         this.gameRepo = gameRepo;
     }
 
-    public Game getGame(String id) throws IOException{
+    public Game getGame(String id) throws IOException, InvalidIdException {
         if(!isValidId(id)){
-            return null;
+            throw new InvalidIdException();
         }
 
         int idAsInt = Integer.parseInt(id);
@@ -32,7 +33,7 @@ public class GameService {
 
         int integer = Integer.parseInt(s);
 
-        return integer >= 0;
+        return integer > 0;
     }
 
     private boolean isInteger(String s){
@@ -40,13 +41,14 @@ public class GameService {
             return false;
         }
 
-        Scanner sc = new Scanner(s.trim());
+        try(Scanner sc = new Scanner(s.trim())) {
 
-        if(!sc.hasNextInt()){
-            return false;
+            if (!sc.hasNextInt()) {
+                return false;
+            }
+
+            sc.nextInt();
+            return !sc.hasNext();
         }
-
-        sc.nextInt();
-        return !sc.hasNext();
     }
 }

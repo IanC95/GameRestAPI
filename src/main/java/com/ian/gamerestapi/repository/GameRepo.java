@@ -12,13 +12,14 @@ import java.io.IOException;
 
 @Repository
 public class GameRepo {
+    private static final String JSON_FILE_PATH = "classpath:static/games.json";
     private File jsonFile;
 
     private ObjectMapper objectMapper;
 
     public GameRepo() throws IOException{
         this.objectMapper = new ObjectMapper();
-        jsonFile = ResourceUtils.getFile("classpath:static/games.json");
+        jsonFile = ResourceUtils.getFile(JSON_FILE_PATH);
     }
 
     public void setObjectMapper(ObjectMapper objectMapper) {

@@ -1,6 +1,7 @@
 package com.ian.gamerestapi.controller;
 
 import com.ian.gamerestapi.exception.IdNotFoundException;
+import com.ian.gamerestapi.exception.InvalidIdException;
 import com.ian.gamerestapi.model.Game;
 import com.ian.gamerestapi.model.Report;
 import com.ian.gamerestapi.service.GameService;
@@ -35,7 +36,7 @@ public class ControllerTest {
     }
 
     @Test
-    public void getGameTest() throws IOException {
+    public void getGameTest() throws IOException, InvalidIdException {
         Game game = new Game();
         ResponseEntity<Object> expectedResponse = new ResponseEntity<>(
                 game,
@@ -49,7 +50,7 @@ public class ControllerTest {
     }
 
     @Test
-    public void getGameTestIdNotFound() throws IOException {
+    public void getGameTestIdNotFound() throws IOException, InvalidIdException {
         ResponseEntity<Object> expectedResponse = new ResponseEntity<>(
                 null,
                 HttpStatus.NOT_FOUND
@@ -62,7 +63,7 @@ public class ControllerTest {
     }
 
     @Test
-    public void getGameTestIOException() throws IOException {
+    public void getGameTestIOException() throws IOException, InvalidIdException {
         ResponseEntity<Object> expectedResponse = new ResponseEntity<>(
                 null,
                 HttpStatus.INTERNAL_SERVER_ERROR
@@ -75,12 +76,12 @@ public class ControllerTest {
     }
 
     @Test
-    public void getGameTestNoGameReturned() throws IOException {
+    public void getGameTestNoGameReturned() throws IOException, InvalidIdException {
         ResponseEntity<Object> expectedResponse = new ResponseEntity<>(
                 null,
                 HttpStatus.BAD_REQUEST
         );
-        Mockito.when(gameService.getGame(Mockito.anyString())).thenReturn(null);
+        Mockito.when(gameService.getGame(Mockito.anyString())).thenThrow(new InvalidIdException());
 
         ResponseEntity<Object> response = controller.getGame("INVALID_ID");
 

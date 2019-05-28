@@ -1,6 +1,7 @@
 package com.ian.gamerestapi.controller;
 
 import com.ian.gamerestapi.exception.IdNotFoundException;
+import com.ian.gamerestapi.exception.InvalidIdException;
 import com.ian.gamerestapi.model.Game;
 import com.ian.gamerestapi.model.Report;
 import com.ian.gamerestapi.service.GameService;
@@ -30,30 +31,27 @@ public class Controller {
         Game game;
         try{
             game = gameService.getGame(id);
+        }catch (InvalidIdException e){
+            return new ResponseEntity<>(
+                    null,
+                    HttpStatus.BAD_REQUEST
+            );
         }catch(IdNotFoundException e){
             return new ResponseEntity<>(
                     null,
                     HttpStatus.NOT_FOUND
             );
-        }
-            catch(IOException e){
+        }catch(IOException e){
             return new ResponseEntity<>(
                     null,
                     HttpStatus.INTERNAL_SERVER_ERROR
             );
         }
 
-        if(game != null){
-            return new ResponseEntity<>(
-                    game,
-                    HttpStatus.OK
-            );
-        }else{
-            return new ResponseEntity<>(
-                    null,
-                    HttpStatus.BAD_REQUEST
-            );
-        }
+        return new ResponseEntity<>(
+                game,
+                HttpStatus.OK
+        );
 
 
     }

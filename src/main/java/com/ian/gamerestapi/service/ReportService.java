@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -61,8 +62,7 @@ public class ReportService {
         }
 
         Map.Entry<String, Integer> maxEntry = Collections.max(usersComments.entrySet(),
-                (Map.Entry<String, Integer> e1, Map.Entry<String, Integer> e2) -> e1.getValue()
-                .compareTo(e2.getValue()));
+                Comparator.comparing((Map.Entry::getValue)));
         return maxEntry.getKey();
     }
 
@@ -72,7 +72,7 @@ public class ReportService {
         }
 
         String currentLeader = "";
-        Integer currentMax = 0;
+        int currentMax = 0;
         for(Game game : games){
             if(game.getComments() != null && !game.getComments().isEmpty()) {
                 int gamesLikes = 0;
