@@ -13,6 +13,7 @@ import java.io.IOException;
 @Repository
 public class GameRepo {
     private static final String JSON_FILE_PATH = "classpath:static/games.json";
+    private static final String ID_NOT_FOUND_MESSAGE = "No game found with id %d";
     private File jsonFile;
 
     private ObjectMapper objectMapper;
@@ -42,7 +43,7 @@ public class GameRepo {
         Game[] games = findAllGames();
 
         if(id > games.length){
-            throw new IdNotFoundException();
+            throw new IdNotFoundException(String.format(ID_NOT_FOUND_MESSAGE, id));
         }else{
             return games[idToIndex];
         }

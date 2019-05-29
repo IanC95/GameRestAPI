@@ -17,6 +17,8 @@ import java.io.IOException;
 @RestController
 public class Controller {
 
+    private static final String INVALID_ID_MESSAGE = "Please provide an id that is an integer greater than 0";
+
     private final GameService gameService;
     private final ReportService reportService;
 
@@ -33,17 +35,17 @@ public class Controller {
             game = gameService.getGame(id);
         }catch (InvalidIdException e){
             return new ResponseEntity<>(
-                    null,
+                    INVALID_ID_MESSAGE,
                     HttpStatus.BAD_REQUEST
             );
         }catch(IdNotFoundException e){
             return new ResponseEntity<>(
-                    null,
+                    e.getMessage(),
                     HttpStatus.NOT_FOUND
             );
         }catch(IOException e){
             return new ResponseEntity<>(
-                    null,
+                    HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase(),
                     HttpStatus.INTERNAL_SERVER_ERROR
             );
         }
@@ -63,7 +65,7 @@ public class Controller {
             report = reportService.getReport();
         }catch(IOException e){
             return new ResponseEntity<>(
-                    null,
+                    HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase(),
                     HttpStatus.INTERNAL_SERVER_ERROR
             );
         }

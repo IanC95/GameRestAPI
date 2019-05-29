@@ -52,10 +52,12 @@ public class ControllerTest {
     @Test
     public void getGameTestIdNotFound() throws IOException, InvalidIdException {
         ResponseEntity<Object> expectedResponse = new ResponseEntity<>(
-                null,
+                String.format("No game found with id %d", 1),
                 HttpStatus.NOT_FOUND
         );
-        Mockito.when(gameService.getGame(Mockito.anyString())).thenThrow(new IdNotFoundException());
+        Mockito.when(gameService.getGame(Mockito.anyString())).thenThrow(new IdNotFoundException(
+                String.format("No game found with id %d", 1)
+        ));
 
         ResponseEntity<Object> response = controller.getGame("1");
 
@@ -65,7 +67,7 @@ public class ControllerTest {
     @Test
     public void getGameTestIOException() throws IOException, InvalidIdException {
         ResponseEntity<Object> expectedResponse = new ResponseEntity<>(
-                null,
+                HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase(),
                 HttpStatus.INTERNAL_SERVER_ERROR
         );
         Mockito.when(gameService.getGame(Mockito.anyString())).thenThrow(new IOException());
@@ -78,7 +80,7 @@ public class ControllerTest {
     @Test
     public void getGameTestNoGameReturned() throws IOException, InvalidIdException {
         ResponseEntity<Object> expectedResponse = new ResponseEntity<>(
-                null,
+                "Please provide an id that is an integer greater than 0",
                 HttpStatus.BAD_REQUEST
         );
         Mockito.when(gameService.getGame(Mockito.anyString())).thenThrow(new InvalidIdException());
@@ -103,9 +105,9 @@ public class ControllerTest {
     }
 
     @Test
-    public void getReportIOException() throws IOException{
+    public void getReportTestIOException() throws IOException{
         ResponseEntity<Object> expectedResponse = new ResponseEntity<>(
-                null,
+                HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase(),
                 HttpStatus.INTERNAL_SERVER_ERROR
         );
         Mockito.when(reportService.getReport()).thenThrow(new IOException());

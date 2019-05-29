@@ -63,7 +63,9 @@ public class GameServiceTest {
 
     @Test(expected = IdNotFoundException.class)
     public void getGameTestValidIdGameNotFound() throws IOException, InvalidIdException{
-        Mockito.when(gameRepo.findGameById(Integer.parseInt(VALID_ID))).thenThrow(new IdNotFoundException());
+        Mockito.when(gameRepo.findGameById(Integer.parseInt(VALID_ID))).thenThrow(new IdNotFoundException(
+                String.format("No game found with id %s", VALID_ID)
+        ));
 
         gameService.getGame(VALID_ID);
     }
